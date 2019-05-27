@@ -12,7 +12,8 @@ const userSchema = new schema({
     sourceMediaReference:String,
     feedback:String,
     suggestions:String,
-    willRecommend:Boolean
+    willRecommend:Boolean,
+    avatar:{data:Buffer, contentType:String}
 })
 
 module.exports = userSchema;
