@@ -5,11 +5,13 @@ const app = express();
 const PORT = 4000;
 
 const userRouter = require('./api/user');
+const loginRouter = require('./api/login');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/users', userRouter);
+app.use('/login', loginRouter);
 
 
 app.get('/', (req, res) => {
