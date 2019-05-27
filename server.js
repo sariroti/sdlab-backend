@@ -4,8 +4,13 @@ const mongooseServer = require('./db/mongoose/server');
 const app = express();
 const PORT = 4000;
 
+const userRouter = require('./api/user');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use('/users', userRouter);
+
 
 app.get('/', (req, res) => {
     res.send("Welcome to sdlab api");
