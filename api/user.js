@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const userModel = require('../db/mongoose/models/user');
 const mailHelper = require('../helper/mail/mail');
-const mongoose = require('mongoose');
 
 router.get('/', async(req, res) => {
     try {
