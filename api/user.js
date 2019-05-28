@@ -43,4 +43,18 @@ router.put('/', async(req, res) => {
     }
 })
 
+router.get('/activate', async(req, res) => {
+    try {
+        console.log("asdsada");
+        const userId = Buffer.from(req.query.userid, 'base64').toString();
+        const user = await userModel.findById(userId);
+        const message = await userModel.updateOne({_id:user._id, password: user.password, active:true});
+        res.send({payload:message});
+    } catch (error) {
+        res.send({error});
+    }
+})
+
+
+
 module.exports = router;
