@@ -10,8 +10,9 @@ const routesByPassList = [
     }
 ]
 // a middleware function with no mount path. This code is executed for every request to the router
-router.use(async (req, res, next) => {
+router.use((req, res, next) => {
     const routeExist = routesByPassList.some(el => el.method == req.method && el.url == req.originalUrl);
+    console.log(routeExist);
     if(routeExist){
         next();
     }
