@@ -29,6 +29,17 @@ userSchema.pre('save', function (next){
     next(err)
 })
 
+userSchema.pre('updateOne', function (next){
+    const user = this;
+    bcrypt.hash(user._update.password,10).then((hashedPassword) => {
+        user._update.password = hashedPassword;
+        next();
+    })    
+    
+}, function (err) {
+    next(err)
+})
+
 userSchema.statics.comparePassword = async function(candidatePassword, user){
     try {
         return await bcrypt.compare(candidatePassword, user.password);
