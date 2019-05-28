@@ -25,7 +25,6 @@ router.post('/',  async (req, res) => {
         };
         
         const userIdbase64 = Buffer.from(message._id.toHexString()).toString('base64');
-        console.log(userIdbase64);
         const mailOk = await mailHelper.send(mailOptions, userIdbase64);
         
         res.send({payload:message, mail:mailOk});
@@ -42,5 +41,18 @@ router.put('/', async(req, res) => {
         res.send({error});
     }
 })
+
+router.get('/activate', async(req, res) => {
+    try {
+        const userId = Buffer.from(req.query.userid, 'base64').toString();
+        const user = await userModel.findById(userId);
+        const message = await userModel.updateOne({_id:user._id, password: user.password, active:true});
+        res.send({payload:message});
+    } catch (error) {
+        res.send({error});
+    }
+})
+
+
 
 module.exports = router;

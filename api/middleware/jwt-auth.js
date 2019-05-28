@@ -7,12 +7,16 @@ const routesByPassList = [
     {
         url:'/users',
         method:'POST'
+    },
+    {
+        url:'/users/activate',
+        method:'GET'
     }
 ]
 // a middleware function with no mount path. This code is executed for every request to the router
 router.use((req, res, next) => {
-    const routeExist = routesByPassList.some(el => el.method == req.method && el.url == req.originalUrl);
-    console.log(routeExist);
+    const url = req.originalUrl.split("?")[0];
+    const routeExist = routesByPassList.some(el => el.method == req.method && el.url == url);
     if(routeExist){
         next();
     }

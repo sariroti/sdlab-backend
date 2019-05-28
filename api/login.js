@@ -12,6 +12,10 @@ router.post('/',  async (req, res) => {
             res.status(200).send({error:"no user email registered for this user"});
         }
 
+        if(!user.active){
+            res.status(200).send({error:"user not activate, check your email and activate through the link"});
+        }
+
         const isMatch = await userModel.comparePassword(req.body.password, user);
         if(isMatch){
             const newUser = {

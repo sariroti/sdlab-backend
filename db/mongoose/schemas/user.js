@@ -14,7 +14,8 @@ const userSchema = new schema({
     feedback:String,
     suggestions:String,
     willRecommend:Boolean,
-    avatar:{data:Buffer, contentType:String}
+    avatar:{data:Buffer, contentType:String},
+    active:{type:Boolean, default:false}
 })
 
 userSchema.pre('save', function (next){
@@ -31,10 +32,16 @@ userSchema.pre('save', function (next){
 
 userSchema.pre('updateOne', function (next){
     const user = this;
-    bcrypt.hash(user._update.password,10).then((hashedPassword) => {
-        user._update.password = hashedPassword;
+    const isHashed = user._update.password.length > 59 && user._update.password.includes('$'); 
+    if(!isHashed){
+        bcrypt.hash(user._update.password,10).then((hashedPassword) => {
+            user._update.password = hashedPassword;
+            next();
+        })        
+    }
+    else{
         next();
-    })    
+    }
     
 }, function (err) {
     next(err)
