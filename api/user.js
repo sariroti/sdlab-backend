@@ -5,7 +5,7 @@ const userModel = require('../db/mongoose/models/user');
 
 router.get('/', async(req, res) => {
     try {
-        const message = await userModel.findById(req.query.id);
+        const message = await userModel.findById(req.tokenPayload.userId);
         res.send({payload:message});     
     } catch (error) {
         res.send({error});
