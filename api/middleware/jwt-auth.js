@@ -11,6 +11,14 @@ const routesByPassList = [
     {
         url:'/users/activate',
         method:'GET'
+    },
+    {
+        url:'/authentication/forgot-password',
+        method:'GET'
+    },
+    {
+        url:'/authentication/forgot-password',
+        method:'POST'
     }
 ]
 // a middleware function with no mount path. This code is executed for every request to the router

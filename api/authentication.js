@@ -1,8 +1,8 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
-
 const userModel = require('../db/mongoose/models/user');
+const mailHelper = require('../helper/mail/mail');
 
 router.post('/',  async (req, res) => {
     try {
@@ -40,6 +40,32 @@ router.post('/',  async (req, res) => {
         res.send({error})
     }
 })
+
+router.post('/forgot-password',  async (req, res) => {
+    try {
+        const user = await userModel.findOne({email:req.body.email});
+        if(!user){
+            res.status(200).send({error:"no user email registered for this user"});
+        }
+        
+        const mailOptions = {
+            from:'sdlabmailer@gmail.com',
+            to:req.body.email,
+            subject:'SD LAB Forgot Password',
+            html:'',
+            template:'forgot-password'
+        };
+        
+        const token = jwt.sign({userId:user._id}, "Zm9yZ290LXBhc3N3b3Jk");
+        const mailOk = await mailHelper.send(mailOptions, [req.headers.origin,token]);
+
+        res.send({payload:"forgot password success", mail:mailOk})
+
+    } catch (error) {
+        res.send({error})
+    }
+})
+
 
 
 module.exports = router;
