@@ -32,11 +32,8 @@ userSchema.pre('save', function (next){
 
 userSchema.pre('updateOne', function (next){
     const user = this;
-    console.log(user._update.password);
     const isHashed = user._update.password.length > 59 && user._update.password.includes('$'); 
-    console.log(isHashed);
     if(!isHashed){
-        console.log('asdasd');
         bcrypt.hash(user._update.password,10).then((hashedPassword) => {
             user._update.password = hashedPassword;
             next();
