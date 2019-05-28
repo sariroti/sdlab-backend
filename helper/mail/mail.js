@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const mailTemplateRegistration = require('./template/registration');
+const mailTemplateForgotPassword = require('./template/forgot-password');
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -9,6 +10,7 @@ var transporter = nodemailer.createTransport({
    });
 
 async function send(options, placeHolderValue){
+  console.log(options);
   options.html = getTemplate(options.template, placeHolderValue);
   
   const mailResponse = await transporter.sendMail(options);
@@ -19,12 +21,15 @@ async function send(options, placeHolderValue){
 
 function getTemplate(name, value){
   let template = "";
-
     switch (name) {
       case 'registration':
         template = mailTemplateRegistration.replace('[[useridplacholder]]',value);
         break;
-    
+      case 'forgot-password':
+        template = mailTemplateForgotPassword
+                    .replace('[[host-sender-url]]', value[0])
+                    .replace('[[token]]',value[1]);
+        break;
       default:
         break;
     }
