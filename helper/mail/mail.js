@@ -28,7 +28,7 @@ function getTemplate(name, value){
       case 'forgot-password':
         template = mailTemplateForgotPassword
                     .replace('[[host-sender-url]]', value[0])
-                    .replace('[[token]]',value[1]);
+                    .replace('[[token]]', value[1]);
         break;
       default:
         break;
