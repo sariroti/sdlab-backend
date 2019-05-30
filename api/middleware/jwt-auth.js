@@ -19,18 +19,24 @@ const routesByPassList = [
     {
         url:'/authentication/forgot-password',
         method:'POST'
+    },
+    {
+        url:'/authentication',
+        method:'GET'
     }
 ]
 // a middleware function with no mount path. This code is executed for every request to the router
 router.use((req, res, next) => {
-    const url = req.originalUrl.split("?")[0];
+    const url = req.originalUrl.indexOf("?") > 0 ? req.originalUrl.split("?")[0] : req.originalUrl;
     const routeExist = routesByPassList.some(el => el.method == req.method && el.url == url);
     if(routeExist){
         next();
     }
     else{
         const token = req.headers.authorization.split(" ")[1];
+        console.log(token);
         jwt.verify(token, "djghhhhuuwiwuewieuwieuriwu", async (err, payload) => {
+            console.log(payload);
             try {
                 if(!payload) {
                     throw("Not Valid Token!");
@@ -40,7 +46,7 @@ router.use((req, res, next) => {
                 }
                       
             } catch (error) {
-                res.send({error,payload:{}});
+                return res.send({error,payload:{}});
                 
             }
           })
