@@ -34,9 +34,9 @@ router.use((req, res, next) => {
     }
     else{
         const token = req.headers.authorization.split(" ")[1];
-        console.log(token);
+      
         jwt.verify(token, "djghhhhuuwiwuewieuwieuriwu", async (err, payload) => {
-            console.log(payload);
+          
             try {
                 if(!payload) {
                     throw("Not Valid Token!");

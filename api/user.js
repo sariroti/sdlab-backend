@@ -24,7 +24,7 @@ router.get('/', async(req, res) => {
                 type: message.avatar.type
             }
         }
-        console.log(newUser);
+     
         return res.send({payload:newUser});     
     } catch (error) {
         return res.send({error});
@@ -66,11 +66,11 @@ router.get('/activate', async(req, res) => {
     try {
         const userId = Buffer.from(req.query.userid, 'base64').toString();
         const user = await userModel.findById(userId);
-       console.log(user);
+     
         if(user){
-            console.log('hehe');
+         
             const message = await userModel.updateOne({_id:user._id},{password: user.password, active:true});
-            console.log(message);
+         
             return res.status(301).redirect('http://localhost:3000/login');
         }
         else{

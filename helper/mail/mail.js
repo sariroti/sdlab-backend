@@ -10,7 +10,7 @@ var transporter = nodemailer.createTransport({
    });
 
 async function send(options, placeHolderValue){
-  console.log(options);
+ 
   options.html = getTemplate(options.template, placeHolderValue);
   
   const mailResponse = await transporter.sendMail(options);

@@ -30,7 +30,7 @@ router.post('/',  async (req, res) => {
                 willRecommend:user.willRecommend
             }
             const token = jwt.sign({userId:newUser.id}, "djghhhhuuwiwuewieuwieuriwu")
-            console.log(token);
+        
             return res.send({payload:{user:newUser,token}});
         }else{
             return res.send({payload:"password not match"});
@@ -71,7 +71,7 @@ router.post('/forgot-password/verify-token',  async (req, res) => {
     try {
 
         jwt.verify(req.body.token, "Zm9yZ290LXBhc3N3b3Jk", async (err, payload) => {
-            console.log(payload);
+          
             try {
                 if(!payload) {
                     throw("Not Valid Token!");
